@@ -12,7 +12,15 @@ public class Celebrity {
     public Celebrity(int a, int d, double h, double n, short ii, String na)
     {
         birthYear=a;
-        deathYear=d;
+        if(d==0)
+        {
+            deathYear=2018;
+        }
+        else
+        {
+            deathYear=d;
+        }
+
         height=h;
         networth=n;
         imageID=ii;

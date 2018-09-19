@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
     TextView bottomTextBox;
     TextView topCounter;
     TextView bottomCounter;
-    CountDownTimer cdt;
     Timer timer = new Timer();
     boolean pause=true;
+    boolean canCountinue;
     CelebrityHandler celebrityHandler;
     int topCounterValue=0;
     int bottomCounterValue=0;
@@ -68,43 +68,69 @@ public class MainActivity extends AppCompatActivity {
         lImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                runTimer();
                 topClicked=false;
-                if(pause)
-                {
-                    pause=!pause;
-                }
-
+                click();
             }
         });
         nImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                runTimer();
                 topClicked=true;
-                if(pause)
-                {
-                    pause=!pause;
-                }
+                click();
             }
         });
 
     }
 
-    public void runTimer(boolean topImage)
+    public void click()
     {
-        CounterTimer ct = new CounterTimer(100,(int) celebrityHandler.getFirstActor().getNetworth(),bottomCounter);
-        timer.scheduleAtFixedRate(ct,100,100);
-        CounterTimer ct2= new CounterTimer(100, (int) celebrityHandler.getSecondActor().getNetworth(), topCounter);
-        timer.scheduleAtFixedRate(ct2,100, 100 );
-        if(!pause)
+
+        if(pause)
         {
-            tryCont(topImage);
+            runTimer();
+            checkCont();
         }
+        else
+        {
+            if(canCountinue)
+            {
+                celebrityHandler.next();
+                categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
+                canCountinue=false;
+            }
+            bottomCounter.setText("");
+            topCounter.setText("");
+        }
+        pause=!pause;
+    }
+
+    public void runTimer()
+    {
+        double valueFirst=0;
+        double valueSecond=0;
+        switch (categoryNr)
+        {
+                case 0: valueFirst=formatAge(celebrityHandler.getFirstActor()); valueSecond=formatAge(celebrityHandler.getSecondActor());break;
+                case 1: valueFirst=celebrityHandler.getFirstActor().getNetworth(); valueSecond=celebrityHandler.getSecondActor().getNetworth();break;
+                case 2: valueFirst=celebrityHandler.getFirstActor().getHeight(); valueSecond=celebrityHandler.getSecondActor().getHeight();break;
+                case 3: valueFirst=celebrityHandler.getFirstActor().getFeatures(); valueSecond=celebrityHandler.getSecondActor().getFeatures();break;
+                case 4: valueFirst=celebrityHandler.getFirstActor().getOscars(); valueSecond=celebrityHandler.getSecondActor().getOscars();break;
+
+        }
+        pause=true;
+        CounterTimer ct = new CounterTimer(200,valueFirst,bottomCounter);
+        timer.scheduleAtFixedRate(ct,200,150);
+        CounterTimer ct2= new CounterTimer(200, valueSecond, topCounter);
+        timer.scheduleAtFixedRate(ct2,200, 150 );
     }
 
 
-    public void tryCont(boolean topImage)
+    public int formatAge(Actor actor)
+    {
+        return Math.abs(actor.getDeathYear()-actor.getbirthYear());
+    }
+
+    public void tryCont()
     {
         if(topClicked&&celebrityHandler.pickCategory(categoryNr))
         {
@@ -118,40 +144,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    public void checkCont()
+    {
+        if(topClicked&&celebrityHandler.pickCategory(categoryNr))
+        {
+            canCountinue=true;
+        }
+        else if(!topClicked&&!celebrityHandler.pickCategory(categoryNr))
+        {
+            canCountinue=true;
+        }
+    }
 
 
     private class CounterTimer extends TimerTask
     {
         private int frequency;
-        private int value;
+        private double value;
         private double displayNumber;
         TextView textView;
-        public CounterTimer(int f,int value, TextView t)
+        public CounterTimer(int f,double value, TextView t)
         {
             this.frequency=f;
             this.value=value;
             this.displayNumber=0;
             this.textView=t;
-            pause=true;
         }
         @Override
         public void run()
         {
-            displayNumber=displayNumber+value/40;
+            displayNumber=displayNumber+value/8;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    textView.setText("" + displayNumber);
+                    String res = String.format("%.2f",displayNumber);
+                    textView.setText(res);
                 }});
             frequency=frequency-frequency/10;
             if(displayNumber>=value)
             {
-                if(!pause)
-                {
-                    tryCont();
-                    }
-                }
                 pause=false;
                 this.cancel();
             }
@@ -162,12 +193,12 @@ public class MainActivity extends AppCompatActivity {
             return this.frequency;
         }
 
-        public void speedUp()
+     /*   public void speedUp()
         {
             CounterTimer temp = new CounterTimer(frequency,value,textView);
             timer.scheduleAtFixedRate(temp,frequency,frequency);
             this.cancel();
-        }
+        }*/
     }
 
 

@@ -87,7 +87,7 @@ public class CelebrityHandler {
     }
     public boolean compareAge()
     {
-        if(actorList.get(0).getbirthYear()<actorList.get(1).getbirthYear())
+        if(Math.abs(actorList.get(0).getbirthYear()-actorList.get(0).getDeathYear())>Math.abs(actorList.get(1).getbirthYear()-actorList.get(1).getDeathYear()))
         {
             return true;
         }
