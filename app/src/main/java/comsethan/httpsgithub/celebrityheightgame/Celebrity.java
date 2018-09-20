@@ -1,6 +1,6 @@
 package comsethan.httpsgithub.celebrityheightgame;
 
-import java.time.Year;
+
 
 public class Celebrity {
     int birthYear;

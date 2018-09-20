@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toTopOf="@+id/nextImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastImage" />
+        app:layout_constraintTop_toBottomOf="@+id/lastImage" style="@style/RegularText"/>
 
     <TextView
         android:id="@+id/topText"
@@ -61,7 +61,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" style="@style/RegularText" />
 
     <TextView
         android:id="@+id/bottomText"
@@ -74,7 +74,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" style="@style/RegularText" />
 
     <TextView
         android:id="@+id/counterTop"
@@ -89,7 +89,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/lastImage"
         app:layout_constraintEnd_toEndOf="@+id/lastImage"
         app:layout_constraintStart_toStartOf="@+id/lastImage"
-        app:layout_constraintTop_toTopOf="@+id/lastImage" />
+        app:layout_constraintTop_toTopOf="@+id/lastImage"
+        style="@style/CounterText"/>
 
     <TextView
         android:id="@+id/counterBottom"
@@ -104,5 +105,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/nextImage"
         app:layout_constraintEnd_toEndOf="@+id/nextImage"
         app:layout_constraintStart_toStartOf="@+id/nextImage"
-        app:layout_constraintTop_toTopOf="@+id/nextImage" />
+        app:layout_constraintTop_toTopOf="@+id/nextImage"
+        style="@style/CounterText" />
 </android.support.constraint.ConstraintLayout>

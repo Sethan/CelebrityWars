@@ -2,7 +2,6 @@ package comsethan.httpsgithub.celebrityheightgame;
 
 
 
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     TextView bottomCounter;
     Timer timer = new Timer();
     boolean pause=true;
-    boolean canCountinue;
+    boolean canContinue;
     CelebrityHandler celebrityHandler;
     int topCounterValue=0;
     int bottomCounterValue=0;
@@ -92,12 +91,14 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            if(canCountinue)
+            if(canContinue)
             {
                 celebrityHandler.next();
                 categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
-                canCountinue=false;
+                canContinue =false;
             }
+            timer.cancel();
+            timer=new Timer();
             bottomCounter.setText("");
             topCounter.setText("");
         }
@@ -119,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
         }
         pause=true;
         CounterTimer ct = new CounterTimer(200,valueFirst,bottomCounter);
-        timer.scheduleAtFixedRate(ct,200,150);
+        timer.scheduleAtFixedRate(ct,200,100);
         CounterTimer ct2= new CounterTimer(200, valueSecond, topCounter);
-        timer.scheduleAtFixedRate(ct2,200, 150 );
+        timer.scheduleAtFixedRate(ct2,200, 100 );
     }
 
 
@@ -130,29 +131,15 @@ public class MainActivity extends AppCompatActivity {
         return Math.abs(actor.getDeathYear()-actor.getbirthYear());
     }
 
-    public void tryCont()
-    {
-        if(topClicked&&celebrityHandler.pickCategory(categoryNr))
-        {
-            celebrityHandler.next();
-            categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
-        }
-        else if(!topClicked&&!celebrityHandler.pickCategory(categoryNr))
-        {
-            celebrityHandler.next();
-            categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
-        }
-    }
-
     public void checkCont()
     {
         if(topClicked&&celebrityHandler.pickCategory(categoryNr))
         {
-            canCountinue=true;
+            canContinue =true;
         }
         else if(!topClicked&&!celebrityHandler.pickCategory(categoryNr))
         {
-            canCountinue=true;
+            canContinue =true;
         }
     }
 
@@ -173,12 +160,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run()
         {
-            displayNumber=displayNumber+value/8;
+            displayNumber=displayNumber+value/16;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    String res = String.format("%.2f",displayNumber);
-                    textView.setText(res);
+                    String s="";
+                    if(displayNumber==(int) displayNumber)
+                    {
+                        s =""+(int)displayNumber;
+                    }
+                    else
+                    {
+                        s = String.format("%.2f",displayNumber);
+                    }
+
+                    textView.setText(String.valueOf(s));
                 }});
             frequency=frequency-frequency/10;
             if(displayNumber>=value)
@@ -201,5 +197,19 @@ public class MainActivity extends AppCompatActivity {
         }*/
     }
 
+
+    public void tryCont()
+    {
+        if(topClicked&&celebrityHandler.pickCategory(categoryNr))
+        {
+            celebrityHandler.next();
+            categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
+        }
+        else if(!topClicked&&!celebrityHandler.pickCategory(categoryNr))
+        {
+            celebrityHandler.next();
+            categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
+        }
+    }
 
 }
