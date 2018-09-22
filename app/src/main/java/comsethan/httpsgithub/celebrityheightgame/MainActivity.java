@@ -95,13 +95,18 @@ public class MainActivity extends AppCompatActivity {
             {
                 celebrityHandler.next();
                 categoryNr=ImageLoader.progress(questionText,nImage,lImage,celebrityHandler,getAssets(),topTextBox,bottomTextBox);
-                canContinue =false;
+                canContinue=false;
+            }
+            else
+            {
+                finish();
             }
             timer.cancel();
             timer=new Timer();
-            bottomCounter.setText("");
-            topCounter.setText("");
+
         }
+        bottomCounter.setText("");
+        topCounter.setText("");
         pause=!pause;
     }
 
@@ -160,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run()
         {
-            displayNumber=displayNumber+value/16;
+            displayNumber=displayNumber+value/10;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

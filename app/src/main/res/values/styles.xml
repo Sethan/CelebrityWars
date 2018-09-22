@@ -1,14 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
     </style>
     <style name="CounterText">
-        <item name="android:textColor">#00FF00</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">22dp</item>
     </style>
     <style name="RegularText">
